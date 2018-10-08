@@ -1,0 +1,12 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: create_file
+  hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Remove a file
+      demo:
+        name: "hello_world"
+        location: /tmp
+        state: absent

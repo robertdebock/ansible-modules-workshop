@@ -1,0 +1,11 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: create_file
+  hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Add a file
+      demo:
+        name: "hello_world"
+        location: /tmp

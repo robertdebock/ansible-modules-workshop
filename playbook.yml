@@ -1,0 +1,113 @@
+#!/usr/bin/env ansible-playbook
+- name: configure all nodes
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  roles:
+    - role: robertdebock.bootstrap
+    - role: robertdebock.common
+
+- name: configure managednode
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  roles:
+    - role: robertdebock.users
+      users_user_list:
+        - name: ansible
+          password: $1$Joris$iJ59LPkmyhcXKBZCtLKpN0
+
+- name: configure controlnode
+  hosts: controlnode
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: install required software
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - ansible
+        - git
+        - vim
+
+    - name: install required pip modules
+      pip:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - pycodestyle
+        - mock
+        - voluptuous
+
+    - name: configure vim 
+      lineinfile:
+        path: /home/vagrant/.vimrc
+        line: "{{ item }}"
+        create: yes
+      with_items:
+        - set number
+        - set expandtab
+        - set shiftwidth=4
+        - set softtabstop=4
+      become: no
+
+    - name: create directories
+      file:
+        name: "{{ item }}"
+        state: directory
+      with_items:
+        - /home/vagrant/inventory
+        - /home/vagrant/library
+      become: no
+
+    - name: place files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        - src: ansible.cfg
+          dest: /home/vagrant/ansible.cfg
+        - src: hosts
+          dest: /home/vagrant/inventory/hosts
+      become: no
+      loop_control:
+        label: "{{ item.dest }}"
+
+    - name: prepare part 2
+      copy:
+        src: demo-1.py
+        dest: /home/vagrant/library/demo.py
+      when:
+        - prepare_part_2 is defined
+
+    - name: prepare part 3
+      copy:
+        src: demo-2.py
+        dest: /home/vagrant/library/demo.py
+      when:
+        - prepare_part_3 is defined
+
+    - name: prepare part 4
+      copy:
+        src: demo-3.py
+        dest: /home/vagrant/library/demo.py
+      when:
+        - prepare_part_4 is defined
+
+    - name: prepare part 5
+      copy:
+        src: demo-4.py
+        dest: /home/vagrant/library/demo.py
+      when:
+        - prepare_part_5 is defined
+
+    - name: prepare part 6
+      copy:
+        src: demo-5.py
+        dest: /home/vagrant/library/demo.py
+      when:
+        - prepare_part_6 is defined

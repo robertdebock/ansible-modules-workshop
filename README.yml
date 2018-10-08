@@ -1,0 +1,69 @@
+# Workshop developing Ansbile Modules
+
+This repository can be used to setup a training environment.
+
+# Overview
+```text
++----- your machine ------+
+| vagrant ssh controlnode |
++-------------------------+
+          |
+          V
++--- controlnode ---+    +--- managednode ---+
+| ansible-playbook\ | -> |                   |
+| someplaybook.yml  |    |                   |
++-------------------+    +-------------------+
+```
+
+There are three machines here:
+- your machine: That's your laptop or workstation.
+- controlnode: That's the machine where you will write your code.
+- managednode: That's the machine that will be used as a victim.
+
+# Setup
+
+On your laptop, have these requirements installed:
+- ansible
+- vagrant
+
+Both can be installed using pip, brew, apt-get, yum, dnf, whatever.
+
+```
+ansible-galaxy install -r roles/requirements.yml
+vagrant up
+./playbook.yml
+```
+
+Now login to your controlnode using:
+```
+vagrant ssh controlnode
+```
+
+Test the connection from controlnode to managednode using:
+```
+ansible -m ping all
+```
+
+# Reset
+
+In case you need to restart:
+```
+vagrant destroy
+ansible-playbook playbook.yml
+vagrant up
+```
+
+# Prepare a lab
+In case you want to "skip" typing, you can prepare for a lab using these commands:
+
+```
+ansible-playbook playbook.yml -e prepare_part_2=yes
+```
+
+| prepare_part | when to run            |
++--------------+------------------------+
+|prepare_part_2| before starting part 2 |
+|prepare_part_3| before starting part 3 |
+|prepare_part_4| before starting part 4 |
+|prepare_part_5| before starting part 5 |
+|prepare_part_6| after all parts        |
