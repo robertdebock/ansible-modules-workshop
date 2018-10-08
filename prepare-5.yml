@@ -1,0 +1,11 @@
+---
+- name: prepare controlnode for part 5
+  hosts: controlnode
+
+  tasks:
+    - name: prepare part 5
+      copy:
+        src: demo-4.py
+        dest: /home/vagrant/library/demo.py
+      loop_control:
+        label: "{{ item.src }}"

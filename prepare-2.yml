@@ -1,0 +1,18 @@
+---
+- name: prepare controlnode for part 2
+  hosts: controlnode
+
+  tasks:
+    - name: prepare part 2
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items:
+        - src: demo-1.py
+          dest: /home/vagrant/library/demo.py
+        - src: create_file.yml
+          dest: /home/vagrant/create_file.yml
+        - src: remove_file.yml
+          dest: /home/vagrant/remove_file.yml
+      loop_control:
+        label: "{{ item.src }}"

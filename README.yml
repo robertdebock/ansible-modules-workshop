@@ -11,7 +11,7 @@ This repository can be used to setup a training environment.
           V
 +--- controlnode ---+    +--- managednode ---+
 | ansible-playbook\ | -> |                   |
-| someplaybook.yml  |    |                   |
+| prepare.yml       |    |                   |
 +-------------------+    +-------------------+
 ```
 
@@ -31,7 +31,7 @@ Both can be installed using pip, brew, apt-get, yum, dnf, whatever.
 ```
 ansible-galaxy install -r roles/requirements.yml
 vagrant up
-./playbook.yml
+ansible-playbook prepare.yml
 ```
 
 Now login to your controlnode using:
@@ -49,7 +49,7 @@ ansible -m ping all
 In case you need to restart:
 ```
 vagrant destroy
-ansible-playbook playbook.yml
+ansible-playbook prepare.yml
 vagrant up
 ```
 
@@ -57,13 +57,14 @@ vagrant up
 In case you want to "skip" typing, you can prepare for a lab using these commands:
 
 ```
-ansible-playbook playbook.yml -e prepare_part_2=yes
+ansible-playbook prepare-2.yml
 ```
 
-| prepare_part | when to run            |
-+--------------+------------------------+
-|prepare_part_2| before starting part 2 |
-|prepare_part_3| before starting part 3 |
-|prepare_part_4| before starting part 4 |
-|prepare_part_5| before starting part 5 |
-|prepare_part_6| after all parts        |
+|playbook     |when to run                 |
++-------------+----------------------------+
+|prepare.yml  |at the start of the workshop|
+|prepare_2.yml|before starting part 2      |
+|prepare_3.yml|before starting part 3      |
+|prepare_4.yml|before starting part 4      |
+|prepare_5.yml|before starting part 5      |
+|prepare_6.yml|at the end of the workshop  |
