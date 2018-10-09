@@ -1,7 +1,7 @@
 ---
-- robertdebock.bootstrap
+- src: robertdebock.bootstrap
   version: 2.2.0
-- robertdebock.common
+- src: robertdebock.common
   version: 1.5.0
-- robertdebock.users
+- src: robertdebock.users
   version: 2.1.0
