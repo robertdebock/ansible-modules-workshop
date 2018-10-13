@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "controlnode", primary: true do |web|
     web.vm.box = "fedora/28-cloud-base"
+    web.vm.synced_folder ".", "/vagrant", type: "nfs"
     web.vm.network "private_network", ip: "192.168.22.4", :netmask => "255.255.255.0",  auto_config: true
     web.vm.provider :virtualbox do |vb|
       vb.customize [
@@ -45,6 +46,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "managednode" do |db|
     db.vm.box = "fedora/28-cloud-base"
+    db.vm.synced_folder ".", "/vagrant", disabled: true
     db.vm.network "private_network", ip: "192.168.22.5", :netmask => "255.255.255.0",  auto_config: true
     db.vm.provider :virtualbox do |vb|
       vb.customize [
